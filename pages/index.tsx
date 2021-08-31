@@ -1,8 +1,8 @@
-import { RobeInfo, fetchRobes } from './api/robes'
+import { LootItemInfo, fetchLootItem } from './api/robes'
 import { format as ts } from 'timeago.js'
 
 export async function getStaticProps() {
-  const data = await fetchRobes()
+  const data = await fetchLootItem()
   return {
     props: {
       robes: data.robes,
@@ -11,13 +11,12 @@ export async function getStaticProps() {
     revalidate: 300,
   }
 }
-
 interface Props {
-  robes: RobeInfo[]
+  robes: LootItemInfo[]
   lastUpdate: string
 }
 
-const Robe = ({ robe }: { robe: RobeInfo }) => {
+const Robe = ({ robe }: { robe: LootItemInfo }) => {
   return (
     <a href={robe.url} target="_blank">
       <div className="m-auto pb-4 mb-8 flex flex-col justify-center items-center gap-2 p-4 md:m-4 border border-white transform hover:scale-105 transition-all bg-black w-full md:w-96">

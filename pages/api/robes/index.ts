@@ -3,9 +3,9 @@ import pMap from 'p-map'
 import { chunk, flatten, orderBy } from 'lodash'
 import { utils as etherUtils, BigNumber } from 'ethers'
 import type { OpenseaResponse, Asset } from '../../../utils/openseaTypes'
-import RobeIDs from '../../../data/robes-ids.json'
+import ItemIds from '../../../data/hoods-ids.json'
 
-const chunked = chunk(RobeIDs, 20)
+const chunked = chunk(ItemIds, 20)
 const apiKey = process.env.OPENSEA_API_KEY
 
 const fetchRobePage = async (ids: string[]) => {
@@ -21,14 +21,14 @@ const fetchRobePage = async (ids: string[]) => {
   return json.assets
 }
 
-export interface RobeInfo {
+export interface LootItemInfo {
   id: string
   price: Number
   url: string
   svg: string
 }
 
-export const fetchRobes = async () => {
+export const fetchLootItem = async () => {
   const data = await pMap(chunked, fetchRobePage, { concurrency: 2 })
   const mapped = flatten(data)
     .filter((d) => {
@@ -38,7 +38,7 @@ export const fetchRobes = async () => {
         d.sell_orders[0].payment_token_contract.symbol == 'ETH'
       )
     })
-    .map((a: Asset): RobeInfo => {
+    .map((a: Asset): LootItemInfo => {
       return {
         id: a.token_id,
         price: Number(
@@ -58,7 +58,7 @@ export const fetchRobes = async () => {
 
 const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const data = await fetchRobes()
+    const data = await fetchLootItem()
     res.status(200).json(data)
   } catch (err) {
     res.status(500).json({ statusCode: 500, message: err.message })
