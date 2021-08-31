@@ -46,7 +46,7 @@ export const fetchLootItem = async () => {
             BigNumber.from(a.sell_orders[0].current_price.split('.')[0]),
           ),
         ),
-        url: a.permalink + '?ref=0xfb843f8c4992efdb6b42349c35f025ca55742d33',
+        url: a.permalink + '?ref=0x44e9e84cc5e53270e38eae09120c24a0eabc3e40',
         svg: a.image_url,
       }
     })
