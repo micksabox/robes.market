@@ -1,8 +1,8 @@
-import { LootItemInfo, fetchLootItem } from './api/robes'
+import { LootItemInfo, fetchLootItems } from './api/loot'
 import { format as ts } from 'timeago.js'
 
 export async function getStaticProps() {
-  const data = await fetchLootItem()
+  const data = await fetchLootItems()
   return {
     props: {
       robes: data.robes,

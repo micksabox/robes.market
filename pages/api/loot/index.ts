@@ -28,7 +28,7 @@ export interface LootItemInfo {
   svg: string
 }
 
-export const fetchLootItem = async () => {
+export const fetchLootItems = async () => {
   const data = await pMap(chunked, fetchRobePage, { concurrency: 2 })
   const mapped = flatten(data)
     .filter((d) => {
@@ -58,7 +58,7 @@ export const fetchLootItem = async () => {
 
 const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const data = await fetchLootItem()
+    const data = await fetchLootItems()
     res.status(200).json(data)
   } catch (err) {
     res.status(500).json({ statusCode: 500, message: err.message })
