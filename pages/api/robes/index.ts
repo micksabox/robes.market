@@ -13,9 +13,9 @@ const fetchRobePage = async (ids: string[]) => {
   url += ids.map((id) => `token_ids=${id}`).join('&')
 
   const res = await fetch(url, {
-    headers: {
-      'X-API-KEY': apiKey,
-    },
+    // headers: {
+    //   'X-API-KEY': apiKey,
+    // },
   })
   const json: OpenseaResponse = await res.json()
   return json.assets
