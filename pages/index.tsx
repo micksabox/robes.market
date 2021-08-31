@@ -19,7 +19,7 @@ interface Props {
 const Robe = ({ robe }: { robe: LootItemInfo }) => {
   return (
     <a href={robe.url} target="_blank">
-      <div className="m-auto pb-4 mb-8 flex flex-col justify-center items-center gap-2 p-4 md:m-4 border border-white transform hover:scale-105 transition-all bg-black w-full md:w-96">
+      <div className="flex flex-col items-center justify-center w-full gap-2 p-4 pb-4 m-auto mb-8 transition-all transform bg-black border border-white md:m-4 hover:scale-105 md:w-96">
         <img src={robe.svg} />
         <div className="text-center">
           <p className="text-lg">#{robe.id}</p>
@@ -32,15 +32,15 @@ const Robe = ({ robe }: { robe: LootItemInfo }) => {
 
 const IndexPage = ({ robes, lastUpdate }: Props) => {
   return (
-    <div className="py-3 md:pb-0 font-mono flex flex-col justify-center items-center gap-4 pt-10 md:w-screen">
-      <h1 className="text-lg md:text-3xl">Divine Robes</h1>
-      <div className="text-center max-w-screen-md md:leading-loose">
+    <div className="flex flex-col items-center justify-center gap-4 py-3 pt-10 font-mono md:pb-0 md:w-screen">
+      <h1 className="text-lg md:text-3xl">Divine Hoods</h1>
+      <div className="max-w-screen-md text-center md:leading-loose">
         <p className="md:text-xl">
-          There are {robes.length} bags for sale with Divine Robes. The floor
+          There are {robes.length} bags for sale with Divine Hoods. The floor
           price is {robes[0].price} ETH.
         </p>
-        <p className="md:text-lg pt-2">
-          Site by{' '}
+        <p className="pt-2 md:text-lg">
+          Site by <a target="_blank" className="underline" href="https://twitter.com/micksabox">micksabox</a> forked from{' '}
           <a
             target="_blank"
             href="https://twitter.com/worm_emoji"
@@ -48,19 +48,11 @@ const IndexPage = ({ robes, lastUpdate }: Props) => {
           >
             worm_emoji
           </a>
-          . Join the{' '}
-          <a
-            target="_blank"
-            className="underline"
-            href="https://divineroles.vercel.app"
-          >
-            Discord
-          </a>
           .
         </p>
         <p className="text-sm mv-4">Last updated {ts(lastUpdate)}</p>
       </div>
-      <div className="grid md:grid-cols-2 pt-5">
+      <div className="grid pt-5 md:grid-cols-2">
         {robes.map((robe) => {
           return <Robe robe={robe} key={robe.id} />
         })}
