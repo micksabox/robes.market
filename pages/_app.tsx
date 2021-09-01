@@ -1,9 +1,25 @@
 import 'tailwindcss/tailwind.css'
 import Head from 'next/head'
-function Robes({ Component, pageProps }) {
+import Router from 'next/router';
+
+function LootMarket({ Component, pageProps }) {
+
+  const handleChange = (e) => {
+    Router.push(`/floor/${e.target.value}`);
+  }
+
   return (
     <>
-      <Component {...pageProps} />
+      <div className="flex flex-col items-center justify-center gap-4 py-3 pt-10 font-mono md:pb-0 md:w-screen">
+        <h1 className="text-lg md:text-3xl">Divine Loot</h1>
+        <select onChange={handleChange} defaultValue={pageProps.attrName} className="p-2 text-black">
+          <option value="head">Hoodies</option>
+          <option value="hand">Gloves</option>
+          <option value="chest">Robes</option>
+          <option value="foot">Slippers</option>
+        </select>
+        <Component {...pageProps} />
+      </div>
       <style jsx global>
         {`
           body {
@@ -35,4 +51,4 @@ function Robes({ Component, pageProps }) {
   )
 }
 
-export default Robes
+export default LootMarket;
