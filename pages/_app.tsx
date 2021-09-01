@@ -43,7 +43,7 @@ function LootMarket({ Component, pageProps }) {
         <link rel="icon" type="image/png" href="/favicon.png" />
         <meta
           property="og:description"
-          content="See the floor price of Divine Hoods from the Loot project."
+          content="See the floor price of Divine Loot from the Loot project."
         />
         <meta property="og:image" content="https://hoods.market/og.png" />
       </Head>
