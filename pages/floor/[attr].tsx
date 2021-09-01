@@ -19,12 +19,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export async function getStaticProps(req: GetStaticPropsContext) {
   const attrName = Array.isArray ? req.params['attr'] : req.params['attr']
-  let data = await fetchLootItems((attrName as LootAttrName) || 'head')
-//   try {
-    
-//   } catch (e) {
-//     console.error('error', e)
-//   }
+  let data;
+  try {
+    data = await fetchLootItems((attrName as LootAttrName) || 'head')
+  } catch (e) {
+    data = { robes: [] }
+    console.error('error', e)
+  }
 
   return {
     props: {
