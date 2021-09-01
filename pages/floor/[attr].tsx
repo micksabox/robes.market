@@ -94,7 +94,7 @@ const LootAttrFloor = ({ robes, lastUpdate, attrName }: Props) => {
         <p className="text-sm mv-4">Last updated {ts(lastUpdate)}</p>
       </div>
       <div className="grid pt-5 md:grid-cols-2">
-        {robes.map((robe) => {
+        {robes && robes.map((robe) => {
           return <Robe robe={robe} key={robe.id} />
         })}
       </div>
