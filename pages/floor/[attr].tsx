@@ -68,7 +68,7 @@ const LootAttrFloor = ({ robes, lastUpdate, attrName }: Props) => {
 
         {
             robes?.length == 0 ? <div className="p-2 my-4 bg-red-800">
-                Seeing 0 bags? OpenSea might be rate-limiting since an API key was unable to be secured at time of development. Try again in a bit.
+                Seeing 0 bags? OpenSea might be rate-limiting since an OpenSea API key was unable to be secured at time of development. Try refreshing the page in a bit, it should work.
             </div> : null
         }
 
