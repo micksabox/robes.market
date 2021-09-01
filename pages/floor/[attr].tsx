@@ -61,7 +61,7 @@ const LootAttrFloor = ({ robes, lastUpdate, attrName }: Props) => {
     <>
       <div className="max-w-screen-md text-center md:leading-loose">
         <p className="md:text-xl">
-          There are {robes.length} bags for sale with a Divine for the {attrName} attribute. The floor
+          There are {robes?.length || '-'} bags for sale with a Divine for the {attrName || 'head'} attribute. The floor
           price is {robes[0]?.price} ETH.
         </p>
 
