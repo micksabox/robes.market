@@ -3,16 +3,17 @@ import pMap from 'p-map'
 import { chunk, flatten, orderBy } from 'lodash'
 import { utils as etherUtils, BigNumber } from 'ethers'
 import type { OpenseaResponse, Asset } from '../../../utils/openseaTypes'
-import ItemIds from '../../../data/hoods-ids.json'
+import type { LootAttrName } from '../../../utils/lootTypes'
+import ItemIdsByAttr from '../../../data/divine-ids.json'
 
-const chunked = chunk(ItemIds, 20)
 const apiKey = process.env.OPENSEA_API_KEY
 
-const fetchRobePage = async (ids: string[]) => {
+const fetchLootPage = async (ids: string[]) => {
   let url = 'https://api.opensea.io/api/v1/assets?collection=lootproject&'
   url += ids.map((id) => `token_ids=${id}`).join('&')
 
   const res = await fetch(url, {
+    // TODO: Get OpenSea API key once their site is fixed
     // headers: {
     //   'X-API-KEY': apiKey,
     // },
@@ -28,11 +29,16 @@ export interface LootItemInfo {
   svg: string
 }
 
-export const fetchLootItems = async () => {
-  const data = await pMap(chunked, fetchRobePage, { concurrency: 2 })
+
+export const fetchLootItems = async (attributeName:LootAttrName = undefined) => {
+
+  const chunked = chunk(ItemIdsByAttr[ attributeName || 'head' ], 20);
+
+  const data = await pMap(chunked, fetchLootPage, { concurrency: 2 })
   const mapped = flatten(data)
     .filter((d) => {
       return (
+        d &&
         d.sell_orders &&
         d.sell_orders.length > 0 &&
         d.sell_orders[0].payment_token_contract.symbol == 'ETH'
@@ -43,7 +49,7 @@ export const fetchLootItems = async () => {
         id: a.token_id,
         price: Number(
           etherUtils.formatUnits(
-            BigNumber.from(a.sell_orders[0].current_price.split('.')[0]),
+            BigNumber.from(a.sell_orders[0]?.current_price.split('.')[0]),
           ),
         ),
         url: a.permalink + '?ref=0x44e9e84cc5e53270e38eae09120c24a0eabc3e40',
@@ -56,9 +62,10 @@ export const fetchLootItems = async () => {
   }
 }
 
-const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const data = await fetchLootItems()
+    const attr = Array.isArray(req.query.attribute) ? req.query.attribute[0] : req.query.attribute;
+    const data = await fetchLootItems(attr as LootAttrName);
     res.status(200).json(data)
   } catch (err) {
     res.status(500).json({ statusCode: 500, message: err.message })
